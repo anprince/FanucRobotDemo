@@ -1,0 +1,46 @@
+<Window x:Class="FanucRobotServerSH.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:views="clr-namespace:FanucRobotServerSH.Views"
+        Title="FANUC 控制器模拟器 (FanucRobotServerSH)"
+        Width="1200" Height="760"
+        MinWidth="980" MinHeight="640"
+        WindowStartupLocation="CenterScreen"
+        Background="#F5F5F5">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- 顶部标题条 -->
+        <Border Background="#1B5E20" Padding="16,10">
+            <DockPanel>
+                <Ellipse Width="14" Height="14" Fill="#4CAF50" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                <TextBlock Foreground="White" FontSize="18" FontWeight="Bold" VerticalAlignment="Center"
+                           Text="FANUC SNPX Server 模拟器"/>
+                <TextBlock Foreground="#B9E4C9" FontSize="12" VerticalAlignment="Center" Margin="16,0,0,0"
+                           Text="状态化模拟引擎 · 支持 R/SR/F/PR/POS/系统变量/任务/报警 读写闭环"/>
+            </DockPanel>
+        </Border>
+
+        <!-- Tab 内容 -->
+        <TabControl Grid.Row="1" Margin="8" Background="Transparent">
+            <TabItem Header="连接监控">
+                <views:ConnectionView x:Name="ConnectionPage"/>
+            </TabItem>
+            <TabItem Header="寄存器/信号">
+                <views:RegisterSignalView x:Name="RegisterSignalPage"/>
+            </TabItem>
+            <TabItem Header="位置/系统变量">
+                <views:PositionSysvarView x:Name="PositionSysvarPage"/>
+            </TabItem>
+            <TabItem Header="报警/任务">
+                <views:AlarmTaskView x:Name="AlarmTaskPage"/>
+            </TabItem>
+            <TabItem Header="注释">
+                <views:CommentView x:Name="CommentPage"/>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Window>

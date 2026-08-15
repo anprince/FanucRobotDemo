@@ -1,0 +1,97 @@
+<UserControl x:Class="FanucRobotServerSH.Views.ConnectionView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             d:DesignHeight="450" d:DesignWidth="900"
+             Background="#F5F5F5">
+    <Grid Margin="12">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- 监听控制卡片 -->
+        <Border Style="{StaticResource CardBorder}">
+            <StackPanel>
+                <TextBlock Style="{StaticResource CardTitle}" Text="监听控制"/>
+                <StackPanel Orientation="Horizontal" Margin="0,4,0,0">
+                    <TextBlock Style="{StaticResource FieldLabel}" Text="监听端口："/>
+                    <TextBox Width="80" Text="{Binding PortText, UpdateSourceTrigger=PropertyChanged}"/>
+                    <Button Style="{StaticResource PrimaryButton}" Content="启动监听" Command="{Binding StartCommand}"/>
+                    <Button Style="{StaticResource DefaultButton}" Content="停止监听" Command="{Binding StopCommand}"/>
+                    <Button Style="{StaticResource DefaultButton}" Content="清空日志" Command="{Binding ClearLogCommand}"/>
+                    <StackPanel Orientation="Horizontal" Margin="16,0,0,0">
+                        <Ellipse Margin="0,0,6,0" Width="12" Height="12" VerticalAlignment="Center">
+                            <Ellipse.Style>
+                                <Style TargetType="Ellipse">
+                                    <Setter Property="Fill" Value="#E0E0E0"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsListening}" Value="True">
+                                            <Setter Property="Fill" Value="#4CAF50"/>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding IsListening}" Value="False">
+                                            <Setter Property="Fill" Value="#E0E0E0"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Ellipse.Style>
+                        </Ellipse>
+                        <TextBlock VerticalAlignment="Center" FontWeight="SemiBold"
+                                   Text="{Binding ListenStatus}" Foreground="#1B5E20"/>
+                    </StackPanel>
+                </StackPanel>
+            </StackPanel>
+        </Border>
+
+        <!-- 客户端列表 + 日志 -->
+        <Grid Grid.Row="1" Margin="0,12,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="320"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- 客户端列表 -->
+            <Border Style="{StaticResource CardBorder}" Grid.Column="0">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Style="{StaticResource CardTitle}" Text="已连接客户端"/>
+                    <DataGrid Grid.Row="1" ItemsSource="{Binding Clients}" AutoGenerateColumns="False"
+                              IsReadOnly="True" CanUserAddRows="False" HeadersVisibility="Column"
+                              Background="White" BorderBrush="#E0E0E0" RowHeight="30">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="地址" Binding="{Binding Endpoint}" Width="*"/>
+                            <DataGridTextColumn Header="连接时间" Binding="{Binding ConnectedAtText}" Width="90"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </Border>
+
+            <!-- 事件日志 -->
+            <Border Style="{StaticResource CardBorder}" Grid.Column="1">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Style="{StaticResource CardTitle}" Text="事件日志"/>
+                    <ListBox Grid.Row="1" ItemsSource="{Binding LogEntries}" Background="#1E1E1E"
+                             Foreground="#00FF00" FontFamily="Consolas" FontSize="12"
+                             BorderBrush="#333333" BorderThickness="1" Padding="8"
+                             ScrollViewer.HorizontalScrollBarVisibility="Auto">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding DisplayText, Mode=OneWay}" FontFamily="Consolas"/>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </Grid>
+            </Border>
+        </Grid>
+    </Grid>
+</UserControl>

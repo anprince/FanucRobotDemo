@@ -1,0 +1,78 @@
+<UserControl x:Class="FanucRobotDemoSH.Views.AdvancedView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             d:DesignHeight="500" d:DesignWidth="1000"
+             Background="{StaticResource AppBackgroundBrush}">
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <Grid Margin="12">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <!-- 连接控制 -->
+            <Border Style="{StaticResource CardBorder}" Grid.Row="0">
+                <StackPanel>
+                    <TextBlock Style="{StaticResource CardTitle}" Text="连接控制"/>
+                    <StackPanel Orientation="Horizontal">
+                        <Button Style="{StaticResource PrimaryButton}" Content="清空 R 映射 (ClearRAssignment)" Command="{Binding ClearRAssignmentCommand}"/>
+                        <TextBlock Style="{StaticResource FieldLabel}" Text="客户端 ID:" VerticalAlignment="Center"/>
+                        <TextBox Width="60" Text="{Binding ClientId}"/>
+                        <Button Style="{StaticResource PrimaryButton}" Content="设置 (SetClientId)" Command="{Binding SetClientIdCommand}"/>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+
+            <!-- PR 笛卡尔批量写 -->
+            <Border Style="{StaticResource CardBorder}" Grid.Row="1">
+                <StackPanel>
+                    <TextBlock Style="{StaticResource CardTitle}" Text="PR 笛卡尔坐标批量写入 (WriteCartesianBatch)"/>
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                        <TextBlock Style="{StaticResource FieldLabel}" Text="起始 PR["/>
+                        <TextBox Width="40" Text="{Binding PrBatchStart}"/>
+                        <TextBlock Style="{StaticResource FieldLabel}" Text="] 数量:"/>
+                        <TextBox Width="40" Text="{Binding PrBatchCount}"/>
+                        <Button Style="{StaticResource PrimaryButton}" Content="批量写入笛卡尔" Command="{Binding WritePrCartBatchCommand}"/>
+                        <Button Style="{StaticResource DefaultButton}" Content="批量读取验证" Command="{Binding ReadPrBatchCommand}"/>
+                    </StackPanel>
+                    <Border Background="#F5F5F5" Padding="8">
+                        <TextBlock Text="{Binding PrBatchResult}" FontFamily="Consolas" FontSize="11" TextWrapping="Wrap"/>
+                    </Border>
+                </StackPanel>
+            </Border>
+
+            <!-- PR 关节批量写 -->
+            <Border Style="{StaticResource CardBorder}" Grid.Row="2">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Style="{StaticResource CardTitle}" Text="PR 关节坐标批量写入 (WriteJointBatch)" VerticalAlignment="Center"/>
+                    <TextBlock Style="{StaticResource FieldLabel}" Text="起始 PR["/>
+                    <TextBox Width="40" Text="{Binding PrJointBatchStart}"/>
+                    <TextBlock Style="{StaticResource FieldLabel}" Text="] 数量:"/>
+                    <TextBox Width="40" Text="{Binding PrJointBatchCount}"/>
+                    <Button Style="{StaticResource PrimaryButton}" Content="批量写入关节(示例值)" Command="{Binding WritePrJointBatchCommand}"/>
+                </StackPanel>
+            </Border>
+
+            <!-- PMC D 批量 -->
+            <Border Style="{StaticResource CardBorder}" Grid.Row="3">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Style="{StaticResource CardTitle}" Text="PMC D 数据批量 (ReadDatas / WriteDatas)" VerticalAlignment="Center"/>
+                    <TextBlock Style="{StaticResource FieldLabel}" Text="起始 D["/>
+                    <TextBox Width="40" Text="{Binding PmcDataBatchStart}"/>
+                    <TextBlock Style="{StaticResource FieldLabel}" Text="] 数量:"/>
+                    <TextBox Width="40" Text="{Binding PmcDataBatchCount}"/>
+                    <Button Style="{StaticResource PrimaryButton}" Content="批量读取" Command="{Binding ReadPmcDataBatchCommand}"/>
+                    <TextBlock Style="{StaticResource FieldLabel}" Text=" 写入值(逗号分隔):" VerticalAlignment="Center"/>
+                    <TextBox Width="120" Text="{Binding PmcDataBatchValues}"/>
+                    <Button Style="{StaticResource PrimaryButton}" Content="批量写入" Command="{Binding WritePmcDataBatchCommand}"/>
+                    <TextBlock Text="{Binding PmcDataBatchResult}" FontWeight="Bold" Foreground="#3F51B5" VerticalAlignment="Center" Margin="10,0,0,0"/>
+                </StackPanel>
+            </Border>
+        </Grid>
+    </ScrollViewer>
+</UserControl>

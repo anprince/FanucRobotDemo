@@ -1,0 +1,108 @@
+<Window x:Class="FanucRobotDemoSH.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:views="clr-namespace:FanucRobotDemoSH.Views"
+        Title="FANUC 机器人通信示例 - FanucRobotDemo-SH"
+        Height="700" Width="1000"
+        WindowStartupLocation="CenterScreen"
+        Background="#F5F5F5">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="180"/>
+        </Grid.RowDefinitions>
+
+        <!-- ===== 连接面板（绑定 RobotClientService） ===== -->
+        <Border Grid.Row="0" Background="#F0F0F0" Padding="10" Margin="5">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="120"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="80"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Text="机器人 IP:" VerticalAlignment="Center" Margin="0,0,5,0"/>
+                <TextBox Grid.Column="1" Text="{Binding Ip, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Padding="4"/>
+
+                <TextBlock Text="端口:" Grid.Column="2" VerticalAlignment="Center" Margin="10,0,5,0"/>
+                <TextBox Grid.Column="3" Text="{Binding Port, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Padding="4"/>
+
+                <Button Grid.Column="4" Content="🔗 连接" Width="90" Height="28" Margin="15,0,5,0"
+                        Background="#4CAF50" Foreground="White" FontWeight="Bold"
+                        IsEnabled="{Binding IsConnectEnabled}"
+                        Command="{Binding ConnectCommand}"/>
+                <Button Grid.Column="5" Content="⛓ 断开" Width="90" Height="28" Margin="5,0,10,0"
+                        Background="#f44336" Foreground="White" FontWeight="Bold"
+                        IsEnabled="{Binding IsDisconnectEnabled}"
+                        Command="{Binding DisconnectCommand}"/>
+
+                <StackPanel Grid.Column="6" Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Ellipse Width="16" Height="16" Stroke="#555" StrokeThickness="1"
+                             Fill="{Binding StatusBackground}" VerticalAlignment="Center" Margin="0,0,6,0"/>
+                    <Border Background="{Binding StatusBackground}" CornerRadius="4" Padding="8,3"
+                            VerticalAlignment="Center">
+                        <TextBlock Text="{Binding StatusText}" VerticalAlignment="Center"
+                                   FontWeight="Bold" FontSize="13" Foreground="#333"/>
+                    </Border>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- ===== 快捷操作栏（绑定 ConnectionViewModel） ===== -->
+        <Border Grid.Row="1" Padding="8" Margin="5,0,5,0">
+            <StackPanel Orientation="Horizontal">
+                <views:ConnectionView x:Name="ConnectionBar"/>
+                <Button Content="🧹 清除日志" Width="90" Margin="10,0,0,0"
+                        Click="BtnClearLog_Click" Height="26"/>
+            </StackPanel>
+        </Border>
+
+        <!-- ===== TabControl 主区域 ===== -->
+        <TabControl Grid.Row="2" Margin="5" Background="Transparent">
+            <TabItem Header="📊 数字 I/O">
+                <views:DigitalIOView x:Name="DigitalIOPage"/>
+            </TabItem>
+            <TabItem Header="📈 寄存器">
+                <views:RegisterView x:Name="RegisterPage"/>
+            </TabItem>
+            <TabItem Header="📍 位置">
+                <views:PositionView x:Name="PositionPage"/>
+            </TabItem>
+            <TabItem Header="🔧 系统变量">
+                <views:SystemVarView x:Name="SystemVarPage"/>
+            </TabItem>
+            <TabItem Header="⚠️ 任务与报警">
+                <views:TaskAlarmView x:Name="TaskAlarmPage"/>
+            </TabItem>
+            <TabItem Header="💬 注释">
+                <views:CommentView x:Name="CommentPage"/>
+            </TabItem>
+            <TabItem Header="🚀 高级">
+                <views:AdvancedView x:Name="AdvancedPage"/>
+            </TabItem>
+        </TabControl>
+
+        <!-- ===== 日志面板（绑定 RobotClientService） ===== -->
+        <Border Grid.Row="3" Margin="5" BorderBrush="#CCC" BorderThickness="1">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0" Text="📋 通信日志" Background="#333" Foreground="White"
+                           Padding="6,4" FontWeight="Bold"/>
+                <ListBox Grid.Row="1" Background="#1E1E1E" Foreground="#00FF00"
+                         FontFamily="Consolas" FontSize="11" BorderThickness="0"
+                         ItemsSource="{Binding Logs}"
+                         VirtualizingPanel.ScrollUnit="Pixel"/>
+            </Grid>
+        </Border>
+    </Grid>
+</Window>

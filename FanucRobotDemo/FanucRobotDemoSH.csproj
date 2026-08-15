@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+    <AssemblyName>FanucRobotDemoSH</AssemblyName>
+    <RootNamespace>FanucRobotDemoSH</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- 引用 FanucRobotInterface 库（net8.0;netstandard2.0 多目标，net8 兼容），附带 XML 文档 -->
+    <Reference Include="FanucRobotInterface">
+      <HintPath>..\libs\FanucRobotInterface.dll</HintPath>
+    </Reference>
+    <!-- 将 XML 文档一并复制到输出目录，使 IDE 智能提示可用 -->
+    <None Include="..\libs\FanucRobotInterface.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>

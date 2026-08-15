@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net8.0;netstandard2.0;net461</TargetFrameworks>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>disable</Nullable>
+    <LangVersion>latest</LangVersion>
+    <RootNamespace>FanucRobotInterface</RootNamespace>
+    <AssemblyName>FanucRobotInterface</AssemblyName>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn)</NoWarn>
+    <Version>1.2.2</Version>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- netstandard2.0 / net461 需要 System.Memory 提供 BinaryPrimitives / AsSpan；net8.0 已内置，引用是幂等的 -->
+    <PackageReference Include="System.Memory" Version="4.5.5" />
+    <!-- net461 需要 System.Threading.Tasks.Extensions 提供 ValueTask 等扩展（若用到）；net8.0/netstandard2.0 内置 -->
+    <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.5.4" />
+    <!-- net461 没有内置 ValueTuple，代码里用到了元组语法，需显式引用；netstandard2.0/net8.0 已内置 -->
+    <PackageReference Include="System.ValueTuple" Version="4.5.0" />
+  </ItemGroup>
+
+</Project>

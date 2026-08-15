@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net9.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+    <AssemblyName>FanucRobotServerSH</AssemblyName>
+    <RootNamespace>FanucRobotServerSH</RootNamespace>
+    <!-- 本项目的 XAML 引用了本地类型（UserControl），会触发 WPF 两遍编译（MarkupCompilePass2），
+         其临时项目 wpftmp 会重复编译自动生成的 AssemblyInfo 导致 CS0579。
+         因此禁用自动生成，改用手动 AssemblyInfo.cs 提供全部程序集特性。 -->
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- 引用 FanucRobotInterface 库，附带 XML 文档 -->
+    <Reference Include="FanucRobotInterface">
+      <HintPath>..\libs\FanucRobotInterface.dll</HintPath>
+    </Reference>
+    <!-- 将 XML 文档一并复制到输出目录，使 IDE 智能提示可用 -->
+    <None Include="..\libs\FanucRobotInterface.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>

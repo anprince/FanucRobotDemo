@@ -1,0 +1,99 @@
+<UserControl x:Class="FanucRobotServerSH.Views.AlarmTaskView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             d:DesignHeight="500" d:DesignWidth="1000"
+             Background="#F5F5F5">
+    <Grid Margin="12">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- 报警 -->
+        <Border Style="{StaticResource CardBorder}" Grid.Column="0">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <TextBlock Style="{StaticResource CardTitle}" Text="报警列表（供客户端读取测试）"/>
+                <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,0,0,8">
+                    <TextBlock Style="{StaticResource FieldLabel}" Text="编号 "/>
+                    <TextBox Width="60" Text="{Binding NewAlarmNumber}"/>
+                    <TextBlock Style="{StaticResource FieldLabel}" Text="级别 "/>
+                    <TextBox Width="50" Text="{Binding NewAlarmSeverity}"/>
+                    <TextBlock Style="{StaticResource FieldLabel}" Text="消息 "/>
+                    <TextBox Width="180" Text="{Binding NewAlarmMessage}"/>
+                    <Button Style="{StaticResource PrimaryButton}" Content="添加报警" Command="{Binding AddAlarmCommand}"/>
+                    <Button Style="{StaticResource DefaultButton}" Content="清空" Command="{Binding ClearAlarmsCommand}"/>
+                </StackPanel>
+                <DataGrid Grid.Row="2" ItemsSource="{Binding Alarms}" AutoGenerateColumns="False"
+                          CanUserAddRows="False" HeadersVisibility="Column" Background="White"
+                          BorderBrush="#E0E0E0" RowHeight="30">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="ID" Binding="{Binding AlarmId}" Width="45"/>
+                        <DataGridTextColumn Header="编号" Binding="{Binding AlarmNumber}" Width="60"/>
+                        <DataGridTextColumn Header="级别" Binding="{Binding Severity}" Width="50"/>
+                        <DataGridTextColumn Header="消息" Binding="{Binding AlarmMessage}" Width="*"/>
+                        <DataGridTextColumn Header="时间" Binding="{Binding Timestamp, StringFormat=HH:mm:ss}" Width="90"/>
+                        <DataGridTemplateColumn Header="删除" Width="55">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Content="删" Style="{StaticResource DefaultButton}"
+                                            Command="{Binding DataContext.RemoveAlarmCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                            CommandParameter="{Binding}" Padding="8,2"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Grid>
+        </Border>
+
+        <!-- 任务 -->
+        <Border Style="{StaticResource CardBorder}" Grid.Column="1">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <TextBlock Style="{StaticResource CardTitle}" Text="任务状态（供客户端读取测试）"/>
+                <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,0,0,8">
+                    <TextBlock Style="{StaticResource FieldLabel}" Text="变量 "/>
+                    <TextBox Width="70" Text="{Binding NewTaskVar}"/>
+                    <TextBlock Style="{StaticResource FieldLabel}" Text="程序 "/>
+                    <TextBox Width="90" Text="{Binding NewTaskProg}"/>
+                    <TextBlock Style="{StaticResource FieldLabel}" Text="行号 "/>
+                    <TextBox Width="45" Text="{Binding NewTaskLine}"/>
+                    <TextBlock Style="{StaticResource FieldLabel}" Text="状态 "/>
+                    <TextBox Width="40" Text="{Binding NewTaskState}"/>
+                    <Button Style="{StaticResource PrimaryButton}" Content="添加" Command="{Binding AddTaskCommand}"/>
+                </StackPanel>
+                <DataGrid Grid.Row="2" ItemsSource="{Binding Tasks}" AutoGenerateColumns="False"
+                          CanUserAddRows="False" HeadersVisibility="Column" Background="White"
+                          BorderBrush="#E0E0E0" RowHeight="30">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="变量" Binding="{Binding Variable}" Width="80"/>
+                        <DataGridTextColumn Header="程序" Binding="{Binding Task.ProgName}" Width="*"/>
+                        <DataGridTextColumn Header="行号" Binding="{Binding Task.LineNumber}" Width="55"/>
+                        <DataGridTextColumn Header="状态" Binding="{Binding Task.StateText}" Width="*"/>
+                        <DataGridTemplateColumn Header="删除" Width="55">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Content="删" Style="{StaticResource DefaultButton}"
+                                            Command="{Binding DataContext.RemoveTaskCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                            CommandParameter="{Binding}" Padding="8,2"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>

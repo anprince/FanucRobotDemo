@@ -1,0 +1,82 @@
+<UserControl x:Class="FanucRobotDemoSH.Views.CommentView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             d:DesignHeight="500" d:DesignWidth="1000"
+             Background="{StaticResource AppBackgroundBrush}">
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <Grid Margin="12">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!-- 读写 -->
+            <Border Style="{StaticResource CardBorder}" Grid.Row="0">
+                <StackPanel>
+                    <TextBlock Style="{StaticResource CardTitle}" Text="注释读写 (Comment)"/>
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
+                        <TextBlock Style="{StaticResource FieldLabel}" Text="类型 "/>
+                        <ComboBox Width="70" SelectedIndex="{Binding CommentTypeIndex}">
+                            <ComboBoxItem Content="R"/><ComboBoxItem Content="PR"/><ComboBoxItem Content="SR"/>
+                            <ComboBoxItem Content="DI"/><ComboBoxItem Content="DO"/><ComboBoxItem Content="RI"/>
+                            <ComboBoxItem Content="RO"/><ComboBoxItem Content="UI"/><ComboBoxItem Content="UO"/>
+                            <ComboBoxItem Content="SI"/><ComboBoxItem Content="SO"/><ComboBoxItem Content="GI"/>
+                            <ComboBoxItem Content="GO"/><ComboBoxItem Content="AI"/><ComboBoxItem Content="AO"/>
+                            <ComboBoxItem Content="WI"/><ComboBoxItem Content="WO"/><ComboBoxItem Content="F"/>
+                        </ComboBox>
+                        <TextBlock Style="{StaticResource FieldLabel}" Text=" 索引 "/>
+                        <TextBox Width="50" Text="{Binding CommentIndex}"/>
+                        <Button Style="{StaticResource PrimaryButton}" Content="读取单条" Command="{Binding ReadCommand}"/>
+                        <TextBlock Text="{Binding CommentReadResult}" FontWeight="Bold" Foreground="#2196F3" VerticalAlignment="Center" Margin="10,0,0,0"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
+                        <TextBlock Style="{StaticResource FieldLabel}" Text="写入值 "/>
+                        <TextBox Width="280" Text="{Binding CommentValue}"/>
+                        <Button Style="{StaticResource PrimaryButton}" Content="写入注释" Command="{Binding WriteCommand}"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Style="{StaticResource FieldLabel}" Text="批量条数 "/>
+                        <TextBox Width="50" Text="{Binding CommentCount}"/>
+                        <Button Style="{StaticResource PrimaryButton}" Content="批量读取" Command="{Binding BatchReadCommand}"/>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+
+            <!-- 批量结果 -->
+            <Border Style="{StaticResource CardBorder}" Grid.Row="1">
+                <StackPanel>
+                    <TextBlock Style="{StaticResource GroupHeader}" Text="批量读取结果"/>
+                    <Grid Margin="0,0,0,4">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="90"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="变量" FontWeight="Bold"/>
+                        <TextBlock Grid.Column="1" Text="注释" FontWeight="Bold"/>
+                    </Grid>
+                    <Border Background="#F5F5F5" Padding="8">
+                        <ScrollViewer VerticalScrollBarVisibility="Auto" MaxHeight="280">
+                            <ItemsControl ItemsSource="{Binding BatchItems}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid Margin="0,2">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="90"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Grid.Column="0" Text="{Binding Address}" FontFamily="Consolas" FontWeight="Bold" Foreground="#673AB7"/>
+                                            <TextBlock Grid.Column="1" Text="{Binding Comment}" FontFamily="Consolas" TextWrapping="Wrap"/>
+                                        </Grid>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </ScrollViewer>
+                    </Border>
+                </StackPanel>
+            </Border>
+        </Grid>
+    </ScrollViewer>
+</UserControl>
